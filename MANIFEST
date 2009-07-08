@@ -1,0 +1,14 @@
+Build.PL
+Changes
+lib/Test/Functional.pm
+lib/Test/Functional/Conf.pm
+MANIFEST
+META.yml
+README
+t/00-load.t
+t/boilerplate.t
+t/Functional.t
+t/output.t
+t/pod-coverage.t
+t/pod.t
+Makefile.PL
