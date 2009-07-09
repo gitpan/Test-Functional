@@ -12,7 +12,7 @@ SYNOPSIS
       test { 2 * 2 } 4, "test-1";
       test { 2 * 2 } eqv 4, "test-1";
 
-      # test blocks can be as simple of as involved as you want
+      # test blocks can be as simple or as involved as you want
       test { 3 > 0 } true, "test-4";
       test {
           my $total = 0;
@@ -206,10 +206,10 @@ ETHOS
     testing?) this feature is invaluable.
 
     The various features to prematurely end the test (using *pretest()*
-    and/or $Test::Functional::FASTOUT) can help the developer to focus on
-    the problem at hand, rather than having to filter through spew [3]. This
-    is especially nice during test-driven development, or when trying to
-    increase coverage for an old and crufty module.
+    and/or "$Test::Functional::Conf->fastout") can help the developer to
+    focus on the problem at hand, rather than having to filter through spew
+    [3]. This is especially nice during test-driven development, or when
+    trying to increase coverage for an old and crufty module.
 
 AUTHOR
     Erik Osheim "<erik at osheim.org>"

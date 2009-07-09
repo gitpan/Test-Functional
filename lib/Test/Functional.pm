@@ -3,7 +3,7 @@ package Test::Functional;
 use warnings FATAL => 'all';
 use strict;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 NAME
 
@@ -21,7 +21,7 @@ Test::Functional - Perl tests in a functional style.
   test { 2 * 2 } 4, "test-1";
   test { 2 * 2 } eqv 4, "test-1";
 
-  # test blocks can be as simple of as involved as you want
+  # test blocks can be as simple or as involved as you want
   test { 3 > 0 } true, "test-4";
   test {
       my $total = 0;
@@ -48,7 +48,7 @@ This modules uses (abuses?) the ability to create new syntax via perl
 prototypes to create a testing system focused on functions rather than values.
 Tests run blocks of Perl, and use comparator functions to test the output.
 Despite being a different way of thinking about tests, it plays well with
-Test::More and friends.
+L<Test::More> and friends.
 
 =cut
 use Data::Compare qw(Compare);
@@ -419,10 +419,10 @@ might occur, just about the expected outcome [2]. Especially when trying to test
 other people's code (gray box testing?) this feature is invaluable.
 
 The various features to prematurely end the test (using I<pretest()> and/or
-C<$Test::Functional::FASTOUT>) can help the developer to focus on the problem at
-hand, rather than having to filter through spew [3]. This is especially nice
-during test-driven development, or when trying to increase coverage for an old
-and crufty module.
+C<< $Test::Functional::Conf->fastout >>) can help the developer to focus on the
+problem at hand, rather than having to filter through spew [3]. This is
+especially nice during test-driven development, or when trying to increase
+coverage for an old and crufty module.
 
 =head1 AUTHOR
 

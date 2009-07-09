@@ -1,6 +1,6 @@
 ---
 name: Test-Functional
-version: 0.01
+version: 0.02
 author:
   - 'Erik Osheim <erik@osheim.org>'
 abstract: Perl tests in a functional style.
@@ -12,16 +12,16 @@ requires:
   Scalar::Quote: 0
   Test::Builder: 0
   Test::More: 0
-  perl: 5.0.0
+  perl: 5.6.0
 build_requires:
   Test::More: 0
 provides:
   Test::Functional:
     file: lib/Test/Functional.pm
-    version: 0.01
+    version: 0.02
   Test::Functional::Conf:
     file: lib/Test/Functional/Conf.pm
-    version: 0.01
+    version: 0.02
 generated_by: Module::Build version 0.2808
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html

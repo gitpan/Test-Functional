@@ -2,7 +2,7 @@
 use warnings FATAL => 'all';
 use strict;
 
-use Test::Builder::Tester tests => 3;
+use Test::Builder::Tester tests => 21;
 use Test::Functional;
 use Test::More;
 
