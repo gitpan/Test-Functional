@@ -7,7 +7,6 @@ MANIFEST			This list of files
 META.yml
 README
 t/00-load.t
-t/boilerplate.t
 t/Functional.t
 t/output.t
 t/pod-coverage.t
