@@ -21,6 +21,10 @@ my $builder = Module::Build->new(
         'Test::Builder' => 0,
         'Test::More'    => 0,
     },
+    recommends          => {
+        'Test::Pod'     => 0,
+        'Test::Pod::Coverage' => 0,
+    },
     add_to_cleanup      => [ 'Test-Functional-*' ],
     create_makefile_pl  => 'traditional',
     create_readme       => 1,

@@ -1,5 +1,6 @@
 Build.PL
 Changes
+foo.t
 lib/Test/Functional.pm
 lib/Test/Functional/Conf.pm
 Makefile.PL

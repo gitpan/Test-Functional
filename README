@@ -51,6 +51,19 @@ EXPORTS
         # import all but notest
         use Test::Functional tests => 23, import => ['!notest'];
 
+CONFIGURE
+    This package has two settings which can be altered to change
+    performance:
+
+        unstable - run tests which are normally skipped
+        fastout  - cause the entire test to end after the first failure
+
+    This package can be configured via Test::Functional::Conf or the
+    configure() function.
+
+    configure KEY => VALUE, ...
+        Changes configuration values at run-time.
+
 TEST STRUCTURES
     test { BLOCK } [CONDITION,] NAME
         This is the basic building block of Test::Functional. Each test

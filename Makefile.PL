@@ -3,16 +3,16 @@ require 5.6.0;
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
-          'PL_FILES' => {},
-          'INSTALLDIRS' => 'site',
           'NAME' => 'Test::Functional',
-          'EXE_FILES' => [],
           'VERSION_FROM' => 'lib/Test/Functional.pm',
           'PREREQ_PM' => {
-                           'Test::More' => 0,
                            'Data::Compare' => 0,
+                           'Scalar::Quote' => 0,
                            'Test::Builder' => 0,
-                           'Scalar::Quote' => 0
-                         }
+                           'Test::More' => 0
+                         },
+          'INSTALLDIRS' => 'site',
+          'EXE_FILES' => [],
+          'PL_FILES' => {}
         )
 ;

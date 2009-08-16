@@ -1,5 +1,11 @@
 Revision history for Test-Functional
 
+0.04  Sun Aug 16 10:48:15 EDT 2009
+    - improved test coverage
+    - fixed pretest/group bug
+    - added configure() function
+    - found Test::Builder::Tester problem
+
 0.03  Thu Jul  9 11:10:33 EDT 2009
     - removed boilerplate test
     - fixed strange version bug

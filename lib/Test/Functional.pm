@@ -3,7 +3,7 @@ package Test::Functional;
 use warnings FATAL => 'all';
 use strict;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 NAME
 
@@ -77,9 +77,37 @@ our @EXPORT = (
 );
 
 # three global variables: two settings and a stack for test groups
-my $UNSTABLE = Test::Functional::Conf->unstable;
-my $FASTOUT  = Test::Functional::Conf->fastout;
-my @STACK;
+my ($UNSTABLE, $FASTOUT, @STACK);
+
+=head1 CONFIGURE
+
+This package has two settings which can be altered to change performance:
+
+    unstable - run tests which are normally skipped
+    fastout  - cause the entire test to end after the first failure
+
+This package can be configured via L<Test::Functional::Conf> or the configure()
+function.
+
+=over
+
+=item configure KEY => VALUE, ...
+
+Changes configuration values at run-time.
+
+=cut
+sub configure {
+    my (%opts) = @_;
+    $UNSTABLE  = $opts{unstable} if exists($opts{unstable});
+    $FASTOUT   = $opts{fastout} if exists($opts{fastout});
+}
+
+configure(
+    unstable => Test::Functional::Conf->unstable,
+    fastout  => Test::Functional::Conf->fastout,
+);
+
+=back
 
 =head1 TEST STRUCTURES
 
@@ -165,10 +193,14 @@ sub _test {
     my $t = __PACKAGE__->builder();
     $t->level(3);
     return _ok($@, $name, "    failed to die") if $cmpfunc eq $dies;
-    return _fail($name, "    died: $@") if $@;
-
-    $t->level(4);
-    my $ok = &$cmpfunc($result, $name);
+    my $ok;
+    if($@) {
+        _fail($name, "    died: $@") if $@;
+        $ok = 0;
+    } else {
+        $t->level(4);
+        $ok = &$cmpfunc($result, $name);
+    }
     die if $pre && !$ok && @STACK;
     $t->BAIL_OUT("pretest failed") if !$ok && $pre;
     $t->BAIL_OUT("fastout is on") if !$ok && $FASTOUT;

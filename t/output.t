@@ -1,18 +1,18 @@
 #!/usr/bin/perl
 use warnings FATAL => 'all';
 use strict;
-
-use Test::Builder::Tester tests => 21;
+use Test::Builder::Tester tests => 25;
 use Test::Functional;
 use Test::More;
 
 sub mytest_fail {
-    my ($offset, $msg) = @_;
+    my ($offset, $msg, $name) = @_;
+    $name ||= 'test';
     my ($pkg, $file, $line) = caller();
     $line += $offset || 0;
     $msg ||= '';
     my $err = <<ERR;
-#   Failed test 'test'
+#   Failed test '$name'
 #   at $file line $line.
 $msg
 ERR
@@ -125,3 +125,43 @@ test_out("not ok 1 - test");
 mytest_fail(1, "#     died: Died at t/output.t line 126.");
 test { die } sub { like($_[0], qr/foo/, $_[1]) }, "test";
 test_test("custom-die");
+
+test_out("not ok 1 - grp.test");
+mytest_fail(2, "#          got: '8'\n#     expected: '34'", 'grp.test');
+group {
+    pretest { 8 } 34, "test";
+    test { 19 } 19, "test2";
+} "grp";
+test_test("pretest");
+
+test_out("not ok 1 - grp.test");
+mytest_fail(2, "#     died: Died at t/output.t line 140.", 'grp.test');
+group {
+    pretest { die } 34, "test";
+    test { 19 } 19, "test2"
+} "grp";
+test_test("pretest");
+
+test_out("ok 1 # skip test");
+notest { 19 } 88, "test";
+test_test("notest-stable");
+
+Test::Functional::configure(unstable => 1, fastout => 0);
+
+test_out("not ok 1 - test");
+mytest_fail(1, "#          got: '19'\n#     expected: '88'");
+notest { 19 } 88, "test";
+test_test("notest-unstable");
+
+# there is a bug with Test::Builder::Tester that means that when
+# Test::Functional calls $t->BAIL_OUT() it causes THIS test to exit. ugh.
+
+#Test::Functional::configure(unstable => 0, fastout => 1);
+#
+#test_out("not ok 1 - grp.test");
+#mytest_fail(2, "#          got: '8'\n#     expected: '34'", 'grp.test');
+#group {
+#    test { 8 } 34, "test";
+#    test { 19 } 19, "test2";
+#} "grp";
+#test_test("fastout");
