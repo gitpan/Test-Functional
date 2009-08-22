@@ -5,6 +5,11 @@ use Test::Builder::Tester tests => 25;
 use Test::Functional;
 use Test::More;
 
+my $nl = "\n";
+if($^O eq 'MSWin32') {
+    $nl = "\r\n";
+}
+
 sub mytest_fail {
     my ($offset, $msg, $name) = @_;
     $name ||= 'test';
@@ -22,17 +27,17 @@ ERR
 }
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#     died: Died at t/output.t line 26.");
+mytest_fail(1, "#     died: Died at t/output.t line 31.");
 test { die } "test";
 test_test("die");
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#          got: '33'\n" . "#     expected: '34'");
+mytest_fail(1, "#          got: '33'$nl" . "#     expected: '34'");
 test { 33 } 34, "test";
 test_test("eqv");
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#     died: Died at t/output.t line 36.");
+mytest_fail(1, "#     died: Died at t/output.t line 41.");
 test { die } 34, "test";
 test_test("eqv-die");
 
@@ -42,7 +47,7 @@ test { 33 } ineqv(33), "test";
 test_test("ineqv");
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#     died: Died at t/output.t line 46.");
+mytest_fail(1, "#     died: Died at t/output.t line 51.");
 test { die } ineqv(33), "test";
 test_test("ineqv-die");
 
@@ -62,7 +67,7 @@ test { 33 } typeqv('ARRAY'), "test";
 test_test("typeqv-noref");
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#     died: Died at t/output.t line 66.");
+mytest_fail(1, "#     died: Died at t/output.t line 71.");
 test { die } typeqv('ARRAY'), "test";
 test_test("typeqv-die");
 
@@ -72,7 +77,7 @@ test { 33 } dies, "test";
 test_test("dies");
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#     died: Died at t/output.t line 76.");
+mytest_fail(1, "#     died: Died at t/output.t line 81.");
 test { die } noop, "test";
 test_test("noop-die");
 
@@ -82,7 +87,7 @@ test { 0 } true, "test";
 test_test("true");
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#     died: Died at t/output.t line 86.");
+mytest_fail(1, "#     died: Died at t/output.t line 91.");
 test { die } true, "test";
 test_test("true-die");
 
@@ -92,7 +97,7 @@ test { 1 } false, "test";
 test_test("false");
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#     died: Died at t/output.t line 96.");
+mytest_fail(1, "#     died: Died at t/output.t line 101.");
 test { die } false, "test";
 test_test("false-die");
 
@@ -102,7 +107,7 @@ test { undef } isdef, "test";
 test_test("isdef");
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#     died: Died at t/output.t line 106.");
+mytest_fail(1, "#     died: Died at t/output.t line 111.");
 test { die } isdef, "test";
 test_test("isdef-die");
 
@@ -112,22 +117,22 @@ test { 1 } isundef, "test";
 test_test("isundef");
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#     died: Died at t/output.t line 116.");
+mytest_fail(1, "#     died: Died at t/output.t line 121.");
 test { die } isundef, "test";
 test_test("isundef-die");
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#                   'bar'\n#     doesn't match '(?-xism:foo)'");
+mytest_fail(1, "#                   'bar'$nl#     doesn't match '(?-xism:foo)'");
 test { 'bar' } sub { like($_[0], qr/foo/, $_[1]) }, "test";
 test_test("custom");
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#     died: Died at t/output.t line 126.");
+mytest_fail(1, "#     died: Died at t/output.t line 131.");
 test { die } sub { like($_[0], qr/foo/, $_[1]) }, "test";
 test_test("custom-die");
 
 test_out("not ok 1 - grp.test");
-mytest_fail(2, "#          got: '8'\n#     expected: '34'", 'grp.test');
+mytest_fail(2, "#          got: '8'$nl#     expected: '34'", 'grp.test');
 group {
     pretest { 8 } 34, "test";
     test { 19 } 19, "test2";
@@ -135,7 +140,7 @@ group {
 test_test("pretest");
 
 test_out("not ok 1 - grp.test");
-mytest_fail(2, "#     died: Died at t/output.t line 140.", 'grp.test');
+mytest_fail(2, "#     died: Died at t/output.t line 145.", 'grp.test');
 group {
     pretest { die } 34, "test";
     test { 19 } 19, "test2"
@@ -149,7 +154,7 @@ test_test("notest-stable");
 Test::Functional::configure(unstable => 1, fastout => 0);
 
 test_out("not ok 1 - test");
-mytest_fail(1, "#          got: '19'\n#     expected: '88'");
+mytest_fail(1, "#          got: '19'$nl#     expected: '88'");
 notest { 19 } 88, "test";
 test_test("notest-unstable");
 
@@ -159,7 +164,7 @@ test_test("notest-unstable");
 #Test::Functional::configure(unstable => 0, fastout => 1);
 #
 #test_out("not ok 1 - grp.test");
-#mytest_fail(2, "#          got: '8'\n#     expected: '34'", 'grp.test');
+#mytest_fail(2, "#          got: '8'$nl#     expected: '34'", 'grp.test');
 #group {
 #    test { 8 } 34, "test";
 #    test { 19 } 19, "test2";
