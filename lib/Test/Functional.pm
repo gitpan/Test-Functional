@@ -3,7 +3,7 @@ package Test::Functional;
 use warnings FATAL => 'all';
 use strict;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head1 NAME
 
@@ -37,8 +37,11 @@ Test::Functional - Perl tests in a functional style.
   # you can make your own comparator functions, or use existing ones.
   use Test::More import => [qw(like)];
   sub islike {
-      my ($got, $testname) = @_;
-      like($got, qr/cat/, $testname);
+      my ($other) = @_;
+      return sub {
+          my ($got, $testname) = @_;
+          like($got, $other, $testname);
+      };
   }
   test { 'caterpillar' } islike(qr/cat/), 'is cat?';
 

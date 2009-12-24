@@ -3,7 +3,7 @@ Changes
 lib/Test/Functional.pm
 lib/Test/Functional/Conf.pm
 Makefile.PL
-MANIFEST            This list of files
+MANIFEST			This list of files
 META.yml
 README
 t/00-load.t
